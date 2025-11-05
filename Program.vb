@@ -1,6 +1,7 @@
 Imports Microsoft.AspNetCore.Builder
 Imports Microsoft.AspNetCore.Http
 Imports Microsoft.Extensions.Hosting
+Imports System.Net
 
 Module Program
     Sub Main(args As String())
@@ -85,8 +86,8 @@ Module Program
         ' Handle form submission
         app.MapPost("/submit", Async Function(context As HttpContext)
                                    Dim form = Await context.Request.ReadFormAsync()
-                                   Dim username = form("username").ToString()
-                                   Dim message = form("message").ToString()
+                                   Dim username = WebUtility.HtmlEncode(form("username").ToString())
+                                   Dim message = WebUtility.HtmlEncode(form("message").ToString())
                                    
                                    Dim html = $"<!DOCTYPE html>
 <html>
